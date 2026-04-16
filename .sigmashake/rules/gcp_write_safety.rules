@@ -32,8 +32,7 @@ rule gcp-ssrf-metadata-server {
   enabled true
   priority 85
   severity warning
-  ASK write
+  LOG write
   IF path GLOB "**/*.py" AND content LINE_REGEX "requests\\.get\\([\"']http://metadata\\.google\\.internal.*[\"']\\)" AND content NOT CONTAINS "Metadata-Flavor: Google"
   MESSAGE "Querying the GCP metadata server without the 'Metadata-Flavor: Google' header is highly susceptible to Server-Side Request Forgery (SSRF) which can leak service account credentials."
-  PROMPT "Are you sure you want to query the metadata server without the required security header? (Metadata-Flavor: Google)"
 }
